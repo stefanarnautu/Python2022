@@ -41,7 +41,14 @@ print(ex3([1,2,3,4,5,6],[4,5,6,7,8]));
 
 print("\n4------------------------");
 
-
+def note_muzicale(note,pozitii,start):
+    rez = []
+    rez.append(note[start])
+    for i in range(0,len(pozitii)):
+        rez.append(note[(start+pozitii[i])%(len(note))])
+        start = start + pozitii[i]
+    return rez
+print(note_muzicale(["do", "re", "mi", "fa", "sol"], [1, -3, 4, 2], 2))
 
 print("\n5------------------------");
 
