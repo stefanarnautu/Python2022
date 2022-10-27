@@ -2,8 +2,8 @@
 
 print("1------------------------")
 def ex1(a, b):
-    return [set(a | b), set(a ^ b), set(a - b), set(b - a)]
-
+    #am pus union in loc de diferenta simetrica
+    return [set(a | b), set(a.union(b)), set(a - b), set(b - a)]
 print(ex1({1,2,3},{2,3,4,5}))
 
 print("2------------------------")
@@ -37,20 +37,28 @@ print(rec({1:"a",2:"b",3:"c"},{1:"a",2:"b",3:"c",4:"a"}))
 
 print("4------------------------")
 
-def build_xml_element(tag,content,href,_class,id):
-    return "<"+tag+" href=\""+href+"\" "+"_class=\""+_class+"\" id=\""+id+"\"> "+content+" </a>"
+#am pus parametri variabili
+def build_xml_element(tag,content,*args):
+    rez = "<" + tag + " "
+    for el in args:
+        rez = rez + el + " "
+    rez = rez + ">" + content + "</" + tag + ">"
+    return rez
 
-print(build_xml_element("a","Hello there","http://python.org","my-link","someid"))
+print(build_xml_element("a","Hello there","href=\"http://python.org\"", "_class=\"my-link\"", "id=\"someid\""))
 
 print("5------------------------")
 
 def validate_dict(rules, dict):
     for k in dict:
        ok = 0
+       #am sters primul si ultimul cuvant din string pentru a face verificare
+       string_for_check_midd = dict[k]
+       string_for_check_midd = string_for_check_midd[string_for_check_midd.index(' ') + 1:string_for_check_midd.rindex(' ')]
        for rule in rules:
            if k == rule[0]:
                ok = 1
-               if not (dict[k].startswith(rule[1]) and dict[k].endswith(rule[3]) and rule[2] in dict[k]):
+               if not (dict[k].startswith(rule[1]) and dict[k].endswith(rule[3]) and rule[2] in string_for_check_midd):
                    return False
        if ok == 0:
            return False
@@ -64,8 +72,9 @@ print(validate_dict({("key1", "", "inside", ""), ("key2", "start", "middle", "wi
 print("6------------------------")
 
 def ex6(s):
-    uniq = {''}
-    dupli = {''}
+    #am pus initializarea corect
+    uniq = set()
+    dupli = set()
     for e in s:
         count = 0
         for e1 in s:
@@ -75,8 +84,6 @@ def ex6(s):
             uniq.add(e)
         elif count > 1:
             dupli.add(e)
-    uniq.remove('')
-    dupli.remove('')
     return uniq , dupli
 
 
@@ -116,11 +123,15 @@ print(loop({'start': 'a', 'b': 'a', 'a': '6', '6': 'z', 'x': '2', 'z': '2', '2':
 
 print("9------------------------")
 
-def my_function(*args):
-    digits = [num for num in args if isinstance(num, (int))]
+def my_function(*args,**kwargs):
+    digits = list()
+    for d in args:
+        digits.append(d)
+    print(digits)
     c = 0
-    for i in range(len(digits),len(args)):
-        if int(args[i][2]) in digits:
+    #cred ca asa trebuie facut cu kwargs
+    for key,value in kwargs.items():
+        if value in digits:
             c = c + 1
     return c
-print(my_function(1, 2, 3, 4, "x=1", "y=2", "z=3", "w=5"))
+print(my_function(1, 2, 3, 4, x=1, y=2, z=3, w=5))
