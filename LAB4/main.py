@@ -1,5 +1,6 @@
 import os
-
+#nu cred ca pot sa vin(intru online) la seminarul de vineri dimineata(voi fi in tren si nu voi avea laptopul cu mine)
+#daca sunt nelamuriri, as putea sa le clarific seminarul urmator, daca se poate
 print("1-------------------------------------")
 
 def ex1(path):
