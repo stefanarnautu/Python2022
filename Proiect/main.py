@@ -2,12 +2,28 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def proj_29(list_with_dots):
-    x,y = zip(*list_with_dots)
-    x_square = list(map(lambda e: e*e,x))
-    xy = list(map(lambda a,b:a*b,x,y))
-    m = ((len(list_with_dots) * sum(xy)) - (sum(x) * sum(y))) / ((len(list_with_dots) * sum(x_square)) - (sum(x) * sum(x)))
-    b = (sum(y) - (m * sum(x))) / len(list_with_dots)
-    return round(m,4),round(b,4)
+    if type(list_with_dots)!=list:
+        print("Input-ul trebuie sa fie de tip list")
+        return 0
+    else:
+        for t in list_with_dots:
+            if type(t)!=tuple:
+                print("Nu toate elementele listei sunt tuple de integer")
+                return 0
+    if len(list_with_dots)==0:
+        print("Lista este nula")
+        return 0
+    try:
+        x,y = zip(*list_with_dots)
+        x_square = list(map(lambda e: e*e,x))
+        xy = list(map(lambda a,b:a*b,x,y))
+        m = ((len(list_with_dots) * sum(xy)) - (sum(x) * sum(y))) / ((len(list_with_dots) * sum(x_square)) - (sum(x) * sum(x)))
+        b = (sum(y) - (m * sum(x))) / len(list_with_dots)
+        return round(m,4),round(b,4)
+    except ValueError:
+        print("Trebuie cel putin un nod pentru a afisa graficul si cel putin doua noduri pentru a afisa ecuatia grafic")
+    except ZeroDivisionError:
+        print("Nu putem reprezenta axa cu doar un punct")
 """
 def project_29(list_with_dots):
     x = list()
@@ -27,7 +43,14 @@ def project_29(list_with_dots):
     return round(m,4),round(b,4)
 """
 
-print("Ecuatia de aproximare este: ",proj_29([(1.21,1.69), (3,5.89), (5.16,4.11), (8.31,5.49), (10.21,8.65)]))
+proj_29([])
+proj_29([(1.21,1.69), (3,5.89)])
+proj_29([(1.21,1.69)])
+proj_29([(1.21,1.69), (3,5.89), (5.16,4.11), (8.31,5.49), (10.21,8.65)])
+proj_29("Asa nu")
+proj_29([(1.21,1.69), "A", (5.16,4.11), (8.31,5.49), (10.21,8.65)])
+proj_29([(1.21,1.69), (5.16,4.11), (8.31,5.49), 100])
+proj_29([(1.21,1.69), ("b","A"), (8.31,5.49), 100])
 
 def represent(list_with_dots):
     if type(list_with_dots)!=list:
@@ -36,8 +59,11 @@ def represent(list_with_dots):
     else:
         for t in list_with_dots:
             if type(t)!=tuple:
-                print("Nu toate elementele listei sunt tuple")
+                print("Nu toate elementele listei sunt tuple de integer")
                 return 0
+    if len(list_with_dots)==0:
+        print("Lista nu contine noduri")
+        return 0
     try:
         m,b = proj_29(list_with_dots)
         max_x = max(list_with_dots, key=lambda item: item[0])[0]
@@ -66,13 +92,17 @@ def represent(list_with_dots):
         plt.ylabel('y')
         plt.grid()
         plt.show()
-#represent([])
-#represent([(1.21,1.69), (3,5.89)])
-#represent([(1.21,1.69)])
-#represent([(1.21,1.69), (3,5.89), (5.16,4.11), (8.31,5.49), (10.21,8.65)])
+    except TypeError:
+        print("Eroare provocate de faptul ca algoritmul de generare a axei returneaza 0")
+
+represent([])
+represent([(1.21,1.69), (3,5.89)])
+represent([(1.21,1.69)])
+represent([(1.21,1.69), (3,5.89), (5.16,4.11), (8.31,5.49), (10.21,8.65)])
 represent("Asa nu")
 represent([(1.21,1.69), "A", (5.16,4.11), (8.31,5.49), (10.21,8.65)])
 represent([(1.21,1.69), (5.16,4.11), (8.31,5.49), 100])
+represent([(1.21,1.69), ("b","A"), (8.31,5.49), 100])
 
 
 
